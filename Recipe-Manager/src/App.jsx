@@ -1,32 +1,70 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import RecipeForm from './components/RecipeForm'
-import RecipeList from './components/RecipeList'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import RecipeForm from './components/RecipeForm';
+import RecipeList from './components/RecipeList';
+import { API_BASE } from './config';
 
-const API = 'http://localhost:8085/api'
-
-export default function App(){
-  const [recipes, setRecipes] = useState([])
-  const [editing, setEditing] = useState(null)
+export default function App() {
+  const [recipes, setRecipes] = useState([]);
+  const [editing, setEditing] = useState(null);
+  const [error, setError] = useState(null);
 
   const fetchRecipes = async () => {
     try {
-      const res = await axios.get(`${API}/recipes`)
-      setRecipes(res.data)
-    } catch(e){ console.error(e) }
-  }
-  useEffect(()=>{ fetchRecipes() }, [])
+      const res = await axios.get(`${API_BASE}/recipes`);
+      setRecipes(res.data || []);
+      setError(null);
+    } catch (e) {
+      console.error('Fetch error:', e);
+      setError('Backend not reachable. Check Tomcat/URL.');
+    }
+  };
 
-  const createRecipe = async (r) => { await axios.post(`${API}/recipes`, r); fetchRecipes() }
-  const updateRecipe = async (id, r) => { await axios.put(`${API}/recipes/${id}`, r); setEditing(null); fetchRecipes() }
-  const deleteRecipe = async (id) => { await axios.delete(`${API}/recipes/${id}`); fetchRecipes() }
+  useEffect(() => { fetchRecipes(); }, []);
+
+  const createRecipe = async (r) => {
+    try {
+      await axios.post(`${API_BASE}/recipes`, r);
+      fetchRecipes();
+    } catch (e) {
+      console.error('Create error:', e);
+      setError('Create failed.');
+    }
+  };
+
+  const updateRecipe = async (id, r) => {
+    try {
+      await axios.put(`${API_BASE}/recipes/${id}`, r);
+      setEditing(null);
+      fetchRecipes();
+    } catch (e) {
+      console.error('Update error:', e);
+      setError('Update failed.');
+    }
+  };
+
+  const deleteRecipe = async (id) => {
+    try {
+      await axios.delete(`${API_BASE}/recipes/${id}`);
+      fetchRecipes();
+    } catch (e) {
+      console.error('Delete error:', e);
+      setError('Delete failed.');
+    }
+  };
 
   return (
-    <div style={{padding:20, fontFamily:'Arial'}}>
+    <div style={{ padding: 20, fontFamily: 'Arial', maxWidth: 1000, margin: '0 auto' }}>
       <h1>Recipe Manager</h1>
-      <RecipeForm onCreate={createRecipe} editing={editing} onUpdate={updateRecipe} onCancel={()=>setEditing(null)} />
+      {error && <div style={{ color: 'crimson', marginBottom: 10 }}>{error}</div>}
+      <RecipeForm
+        onCreate={createRecipe}
+        editing={editing}
+        onUpdate={updateRecipe}
+        onCancel={() => setEditing(null)}
+      />
       <hr />
       <RecipeList recipes={recipes} onEdit={setEditing} onDelete={deleteRecipe} />
     </div>
-  )
+  );
 }

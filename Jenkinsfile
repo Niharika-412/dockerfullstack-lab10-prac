@@ -6,7 +6,7 @@ pipeline {
         // ===== FRONTEND BUILD =====
         stage('Build Frontend') {
             steps {
-                dir('Recipe Manager') {
+                dir('Recipe-Manager') {
                     bat 'npm install'
                     bat 'npm run build'
                 }

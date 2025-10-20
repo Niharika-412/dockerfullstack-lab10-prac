@@ -127,3 +127,6 @@ Binding(CTRL+SHIFT+T,
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2025-10-20 22:27:19.876
 !MESSAGE Classpath changed for project: RecipeManagerBackend
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-10-20 22:49:43.954
+!MESSAGE Classpath changed for project: RecipeManagerBackend

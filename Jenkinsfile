@@ -39,11 +39,11 @@ pipeline {
         stage('Deploy Backend to Tomcat') {
             steps {
                 bat '''
-                if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\RecipeManagerBackend.war" (
-                    del /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\RecipeManagerBackend.war"
+                if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\RecipeBackend.war" (
+                    del /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\RecipeBackend.war"
                 )
-                if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\RecipeManagerBackend" (
-                    rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\RecipeManagerBackend"
+                if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\RecipeBackend" (
+                    rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\RecipeBackend"
                 )
                 copy "RecipeManagerBackend\\target\\*.war" "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\"
                 '''

@@ -63,7 +63,7 @@
   </dependencies>
 
   <build>
-  <finalName>RecipeManagerBackend</finalName>
+  <finalName>RecipeBackend</finalName>
     <plugins>
       <!-- Ensure the correct Java version for compilation -->
       <plugin>

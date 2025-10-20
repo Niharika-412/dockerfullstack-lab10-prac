@@ -1,0 +1,5 @@
+body { margin:0; padding:20px; font-family: Arial, sans-serif }
+input, textarea, button { font-family: inherit; padding:6px; margin:4px 6px 4px 0 }
+table { width:100%; border-collapse: collapse; }
+th, td { border:1px solid #ddd; padding:8px; text-align:left; vertical-align:top }
+textarea { width:320px; height:80px }

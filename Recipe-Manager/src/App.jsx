@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import RecipeForm from './components/RecipeForm';
 import RecipeList from './components/RecipeList';
-import { API_BASE } from './config';
+import config from './config'; // import default export
+
+const API_BASE = config.url; // use config.url as API base
 
 export default function App() {
   const [recipes, setRecipes] = useState([]);

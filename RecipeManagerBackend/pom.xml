@@ -15,7 +15,7 @@
   <groupId>com.example.recipes</groupId>
   <artifactId>RecipeManagerBackend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  
 
   <name>RecipeManagerBackend</name>
   <description>Backend project for recipes</description>
@@ -61,7 +61,7 @@
       <optional>true</optional>
     </dependency>
 
-    <!-- Testing -->
+    <!-- Testing -->                          
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -71,7 +71,7 @@
 
   <build>
     <!-- WAR name to generate -->
-    <finalName>RecipeBackend</finalName>
+   
 
     <plugins>
       <!-- Java compiler plugin -->

@@ -30,7 +30,7 @@ export default function App() {
 
   const createRecipe = async (r) => {
     try {
-      await axios.post(`${API_BASE}/recipes`, r);
+      await axios.post(`${API_BASE}/api/recipes`, r);
       fetchRecipes();
     } catch (e) {
       console.error('Create error:', e);
@@ -40,7 +40,7 @@ export default function App() {
 
   const updateRecipe = async (id, r) => {
     try {
-      await axios.put(`${API_BASE}/recipes/${id}`, r);
+      await axios.put(`${API_BASE}/api/recipes/${id}`, r);
       setEditing(null);
       fetchRecipes();
     } catch (e) {
@@ -52,7 +52,7 @@ export default function App() {
   const deleteRecipe = async (id) => {
     if (!window.confirm('Delete this recipe?')) return;
     try {
-      await axios.delete(`${API_BASE}/recipes/${id}`);
+      await axios.delete(`${API_BASE}/api/recipes/${id}`);
       fetchRecipes();
     } catch (e) {
       console.error('Delete error:', e);

@@ -30,7 +30,7 @@ export default function App() {
 
   const createRecipe = async (r) => {
     try {
-      await axios.post(`${API_BASE}/api/recipes`, r);
+      await axios.post(`${API_BASE}/recipes`, r);
       fetchRecipes();
     } catch (e) {
       console.error('Create error:', e);

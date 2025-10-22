@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import RecipeForm from './components/RecipeForm';
 import RecipeList from './components/RecipeList';
-import config from './config'; // import default export
 
-const API_BASE = config.url; // use config.url as API base
+// Vite env var (must be prefixed with VITE_). Default to empty string if not set.
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
+// small helper to avoid double slashes
+const recipesEndpoint = (suffix = '') => {
+  const base = API_BASE.replace(/\/+$/, ''); // remove trailing slash(es)
+  const path = '/api/recipes';
+  // suffix may include leading slash
+  return `${base}${path}${suffix}`;
+};
 
 export default function App() {
   const [recipes, setRecipes] = useState([]);
@@ -15,7 +23,7 @@ export default function App() {
   const fetchRecipes = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE}/api/recipes`);
+      const res = await axios.get(recipesEndpoint());
       setRecipes(res.data || []);
       setError(null);
     } catch (e) {
@@ -26,11 +34,14 @@ export default function App() {
     }
   };
 
-  useEffect(() => { fetchRecipes(); }, []);
+  useEffect(() => {
+    fetchRecipes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once on mount
 
   const createRecipe = async (r) => {
     try {
-      await axios.post(`${API_BASE}/api/recipes`, r);
+      await axios.post(recipesEndpoint(), r);
       fetchRecipes();
     } catch (e) {
       console.error('Create error:', e);
@@ -40,7 +51,7 @@ export default function App() {
 
   const updateRecipe = async (id, r) => {
     try {
-      await axios.put(`${API_BASE}/api/recipes/${id}`, r);
+      await axios.put(recipesEndpoint(`/${id}`), r);
       setEditing(null);
       fetchRecipes();
     } catch (e) {
@@ -52,7 +63,7 @@ export default function App() {
   const deleteRecipe = async (id) => {
     if (!window.confirm('Delete this recipe?')) return;
     try {
-      await axios.delete(`${API_BASE}/api/recipes/${id}`);
+      await axios.delete(recipesEndpoint(`/${id}`));
       fetchRecipes();
     } catch (e) {
       console.error('Delete error:', e);

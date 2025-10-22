@@ -8,15 +8,19 @@ export default function App() {
   const [recipes, setRecipes] = useState([]);
   const [editing, setEditing] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const fetchRecipes = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(`${API_BASE}/recipes`);
       setRecipes(res.data || []);
       setError(null);
     } catch (e) {
       console.error('Fetch error:', e);
-      setError('Backend not reachable. Check Tomcat/URL.');
+      setError('Backend not reachable. Check Tomcat/URL and CORS.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,6 +48,7 @@ export default function App() {
   };
 
   const deleteRecipe = async (id) => {
+    if (!window.confirm('Delete this recipe?')) return;
     try {
       await axios.delete(`${API_BASE}/recipes/${id}`);
       fetchRecipes();
@@ -54,8 +59,8 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: 20, fontFamily: 'Arial', maxWidth: 1000, margin: '0 auto' }}>
-      <h1>Recipe Manager</h1>
+    <div style={{ padding: 20, fontFamily: 'Arial, sans-serif', maxWidth: 900, margin: '0 auto' }}>
+      <h1 style={{ textAlign: 'center' }}>Recipe Manager</h1>
       {error && <div style={{ color: 'crimson', marginBottom: 10 }}>{error}</div>}
       <RecipeForm
         onCreate={createRecipe}
@@ -64,7 +69,9 @@ export default function App() {
         onCancel={() => setEditing(null)}
       />
       <hr />
-      <RecipeList recipes={recipes} onEdit={setEditing} onDelete={deleteRecipe} />
+      {loading ? <div>Loading recipes…</div> :
+        <RecipeList recipes={recipes} onEdit={setEditing} onDelete={deleteRecipe} />
+      }
     </div>
   );
 }

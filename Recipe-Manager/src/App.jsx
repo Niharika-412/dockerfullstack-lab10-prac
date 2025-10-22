@@ -15,7 +15,7 @@ export default function App() {
   const fetchRecipes = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE}/recipes`);
+      const res = await axios.get(`${API_BASE}/api/recipes`);
       setRecipes(res.data || []);
       setError(null);
     } catch (e) {

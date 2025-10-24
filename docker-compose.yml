@@ -13,7 +13,7 @@ services:
       - springboot-mysql-net
 
   backend:
-    image: niharika412/backend:latest
+    image: niharika412/backend1:latest
     container_name: springboot
     ports:
       - "2009:2008"
@@ -24,7 +24,7 @@ services:
       - springboot-mysql-net
 
   frontend:
-    image: niharika412/ frontend:latest
+    image: niharika412/ frontend1:latest
     container_name: react
     ports:
       - "3008:80"

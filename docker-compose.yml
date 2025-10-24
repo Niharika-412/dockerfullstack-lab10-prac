@@ -24,7 +24,7 @@ services:
       - springboot-mysql-net
 
   frontend:
-    image: niharika412/ frontend1:latest
+    image: niharika412/frontend1:latest
     container_name: react
     ports:
       - "3008:80"
